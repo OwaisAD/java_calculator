@@ -17,17 +17,20 @@ public class Calculator implements ActionListener {
     char operator;
 
     Calculator() {
+        //setting up the frame
         frame = new JFrame("com.company.Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setSize(420, 550);
         frame.setLayout(null);
 
+        //setting up the textfield
         textField = new JTextField();
         textField.setBounds(55, 25,300, 50);
         textField.setFont(myFont);
         textField.setEditable(false);
 
+        //setting up the function buttons
         addButton = new JButton("+");
         subButton = new JButton("-");
         mulButton = new JButton("*");
@@ -47,11 +50,14 @@ public class Calculator implements ActionListener {
         functionButtons[7] = clrButton;
         functionButtons[8] = negButton;
 
+        //setting actionslistener, font and focusable
         for(int i = 0; i < 9; i++) {
             functionButtons[i].addActionListener(this);
             functionButtons[i].setFont(myFont);
             functionButtons[i].setFocusable(false);
         }
+
+        //creating each button for the numbers and setting actionslistener, font and focusable
         for(int i = 0; i < 10; i++) {
             numberButtons[i] = new JButton(String.valueOf(i));
             numberButtons[i].setFont(myFont);
@@ -59,10 +65,12 @@ public class Calculator implements ActionListener {
             numberButtons[i].setFocusable(false);
         }
 
+        //positioning and setting size of delete, clear and negative buttons
         negButton.setBounds(50, 430, 100, 50);
         delButton.setBounds(150, 430, 100, 50);
         clrButton.setBounds(250, 430, 100, 50);
 
+        //setting up panel and adding numbers and buttons in the 4x4 grid layout we create
         panel = new JPanel();
         panel.setBounds(50, 100, 300, 300);
         panel.setLayout(new GridLayout(4, 4, 10, 10));
@@ -89,7 +97,7 @@ public class Calculator implements ActionListener {
         panel.add(equalsButton);
         panel.add(divButton);
 
-
+        // adding everything to our frame
         frame.add(panel);
         frame.add(delButton);
         frame.add(clrButton);
@@ -98,19 +106,22 @@ public class Calculator implements ActionListener {
         frame.setVisible(true);
     }
 
-
+    // creating all the functionality
     @Override
     public void actionPerformed(ActionEvent e) {
+        // setting a number for each number button
         for(int i = 0; i < 10; i++) {
             if(e.getSource() == numberButtons[i]) {
                textField.setText(textField.getText().concat(String.valueOf(i)));
             }
         }
 
+        // when decimal button is clicked we add a .
         if(e.getSource() == decButton) {
-            textField.setText(textField.getText().concat(","));
+            textField.setText(textField.getText().concat("."));
         }
 
+        // add button get the first value that is put in
         if(e.getSource() == addButton) {
             num1 = Double.parseDouble(textField.getText());
             operator = '+';
@@ -159,6 +170,9 @@ public class Calculator implements ActionListener {
             textField.setText("");
         }
 
+        // smart way to delete number by number
+        // save whatever is in the textfield in a variable then set the field to nothing ""
+        // then iterate over the saved variable and reput it in the textfield without last value
         if(e.getSource() == delButton) {
             String string = textField.getText();
             textField.setText("");
@@ -167,6 +181,7 @@ public class Calculator implements ActionListener {
             }
         }
 
+        // switches a number to its negative value
         if(e.getSource() == negButton) {
             double temp = Double.parseDouble(textField.getText());
             temp*=-1;
